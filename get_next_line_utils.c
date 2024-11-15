@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:51 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/15 16:49:29 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/15 18:32:25 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,22 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	dest_ptr[i] = '\0';
 	return (dest_ptr);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	char	*dest;
+
+	dest = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if ((dest == NULL) || (s == NULL))
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
