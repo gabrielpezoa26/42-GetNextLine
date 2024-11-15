@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+         #
+#    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 15:35:56 by gcesar-n          #+#    #+#              #
-#    Updated: 2024/11/12 19:43:01 by gcesar-n         ###   ########.fr        #
+#    Updated: 2024/11/15 15:49:53 by gabriel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC:= cc
-CFLAGS:= -Wall -Wextra -Werror -D BUFFER_SIZE=n
+CFLAGS:= -Wall -Wextra -Werror -D BUFFER_SIZE=1024
 NAME:= get_next_line.a
 HDR:= get_next_line.h
 
@@ -38,5 +38,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-
