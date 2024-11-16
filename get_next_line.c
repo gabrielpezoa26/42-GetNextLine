@@ -6,13 +6,13 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/15 18:36:00 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/16 10:43:46 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*read_file(int fd, char *y)
+static char	*fill_buffer(int fd, char *y)
 {
 	ssize_t	bytes_read;
 	char	*temp;
@@ -34,7 +34,7 @@ static char	*read_file(int fd, char *y)
 	return (y);
 }
 
-static char	*read_line(char **potato)
+static char	*line_extractor(char **potato)
 {
 	int		index;
 	char	*xuxu;
@@ -65,7 +65,7 @@ char	*get_next_line(int fd)
 {
 	static char	*potato;
 
-	if (!fd || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	potato = read_file(fd, potato);
+	potato = fill_buffer(fd, potato);
 }
