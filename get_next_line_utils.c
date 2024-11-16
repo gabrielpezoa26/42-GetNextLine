@@ -6,11 +6,40 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:51 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/15 18:32:25 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/16 16:40:03 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+#include "libft.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	count;
+
+	count = 0;
+	while (s[count] != '\0')
+	{
+		count++;
+	}
+	return (count);
+}
+
+void	*ft_memset(void	*s, int c, size_t n)
+{
+	unsigned int	i;
+	unsigned char	*x;
+
+	i = 0;
+	x = (unsigned char *)s;
+	while (i < n)
+	{
+		x[i] = c;
+		i++;
+	}
+	return (s);
+}
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {

@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/16 10:43:46 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/16 16:37:50 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,38 +34,39 @@ static char	*fill_buffer(int fd, char *y)
 	return (y);
 }
 
-static char	*line_extractor(char **potato)
+static char	*line_extractor(char **buffer)
 {
 	int		index;
 	char	*xuxu;
 	char	*leftover;
 
-	if (*potato == NULL || **potato == '\0')
+	if (*buffer == NULL || **buffer == '\0')
 		return (NULL);
 	index = 0;
-	while ((*potato)[index] != '\0' && (*potato)[index] != '\n')
+	while ((*buffer)[index] != '\0' && (*buffer)[index] != '\n')
 		index++;
-	if ((*potato)[index] == '\n')
+	if ((*buffer)[index] == '\n')
 		xuxu = malloc(sizeof(char) * (index + 2));
 	else
 		xuxu = malloc(sizeof(char) * (index + 1));
 	if (xuxu == NULL)
 		return (NULL);
-	ft_strlcpy(xuxu, *potato, index + 2);
-	if ((*potato)[index] == '\n')
-		leftover = ft_strdup(&(*potato)[index + 1]);
+	ft_strlcpy(xuxu, *buffer, index + 2);
+	if ((*buffer)[index] == '\n')
+		leftover = ft_strdup(&(*buffer)[index + 1]);
 	else
 		leftover = NULL;
-	free(*potato);
-	*potato = leftover;
+	free(*buffer);
+	*buffer = leftover;
 	return (xuxu);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*potato;
+	static char	*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	potato = fill_buffer(fd, potato);
+	buffer = fill_buffer(fd, buffer);
+	return (line_extractor(&buffer));
 }
