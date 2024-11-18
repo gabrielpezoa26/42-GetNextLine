@@ -6,7 +6,7 @@
 #    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 15:35:56 by gcesar-n          #+#    #+#              #
-#    Updated: 2024/11/15 15:49:53 by gabriel          ###   ########.fr        #
+#    Updated: 2024/11/18 13:16:42 by gabriel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ HDR:= get_next_line.h
 
 SRC_FILES:= get_next_line.c\
 			get_next_line_utils.c\
-			get_next_line.h\
 
 OBJ_FILES := $(SRC_FILES:.c=.o)
 
