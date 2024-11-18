@@ -6,13 +6,11 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:51 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/16 16:40:03 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/18 11:21:22 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-#include "libft.h"
 
 size_t	ft_strlen(const char *s)
 {
