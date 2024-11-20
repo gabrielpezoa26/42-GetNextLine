@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:53 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/20 18:25:10 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:40:07 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h> //apagarrrrrrr
+# include <stdio.h>//apagarrrr
 
 char	*get_next_line(int fd);
 
