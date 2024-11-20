@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/18 15:06:22 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:29:44 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,27 @@ static char	*fill_buffer(int fd, char *y)
 {
 	ssize_t	bytes_read;
 	char	*temp;
+	char	*mango_loko;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (temp == NULL)
+		return (NULL);
 	if (y == NULL)
 		y = ft_calloc(1, 1);
-	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	bytes_read = 1;
+	bytes_read = read(fd, temp, BUFFER_SIZE);
 	while (bytes_read > 0)
 	{
-		bytes_read = read(fd, temp, BUFFER_SIZE);
 		temp[bytes_read] = '\0';
-		y = ft_strjoin(y, temp);
-		if (bytes_read == -1)
-			return (NULL);
-		else if (bytes_read == 0)
-			return (y);
+		mango_loko = ft_strjoin(y, temp);
+		free(y);
+		y = mango_loko;
+		bytes_read = read(fd, temp, BUFFER_SIZE);
 	}
+	free(temp);
+	if (bytes_read == -1)
+		return (free(y), NULL);
 	return (y);
 }
 
