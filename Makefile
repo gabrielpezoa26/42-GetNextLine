@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
+#    By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 15:35:56 by gcesar-n          #+#    #+#              #
-#    Updated: 2024/11/18 13:16:42 by gabriel          ###   ########.fr        #
+#    Updated: 2024/11/22 15:35:38 by gcesar-n         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC:= cc
-CFLAGS:= -Wall -Wextra -Werror -D BUFFER_SIZE=1024
+CFLAGS:= -Wall -Wextra -Werror -D BUFFER_SIZE=42
 NAME:= get_next_line.a
 HDR:= get_next_line.h
 

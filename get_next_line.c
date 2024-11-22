@@ -6,11 +6,12 @@
 /*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/21 09:12:30 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:09:45 by gcesar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h> //apagarrrrrr
 
 static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -110,4 +111,25 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = line_extractor(&buffer);
 	return (line);
+}
+
+int main() {
+	FILE *file = fopen("42_with_nl", "r");
+
+	if (file == NULL) {
+		perror("Error opening file");
+		return 1;
+	}
+
+	printf("File opened successfully!\n");
+
+	int fd = fileno(file);
+
+	char *line;
+	while ((line = get_next_line(fd)) != NULL) {
+		printf("%s", line);
+		free(line);
+	}
+	fclose(file);
+	return 0;
 }
