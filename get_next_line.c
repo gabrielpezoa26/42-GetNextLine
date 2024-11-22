@@ -6,7 +6,7 @@
 /*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/22 16:09:45 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:19:54 by gcesar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,8 @@ int main() {
 		perror("Error opening file");
 		return 1;
 	}
-
 	printf("File opened successfully!\n");
-
 	int fd = fileno(file);
-
 	char *line;
 	while ((line = get_next_line(fd)) != NULL) {
 		printf("%s", line);
