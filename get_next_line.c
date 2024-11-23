@@ -3,130 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/22 16:19:54 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:08:40 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h> //apagarrrrrr
 
-static size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+static char	*clear_backup(char *old_backup)
 {
-	size_t	i;
-
-	if (size == 0)
-		return (ft_strlen(src));
-	i = 0;
-	while (src[i] != '\0' && i < size - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	free(old_backup);
+	return (NULL);
 }
 
-static char	*read_and_join(int fd, char *buffer, char *temp)
+static char	*read_and_store(int fd, char *buffer, char *stored)
 {
-	ssize_t	bytes_read;
-	char	*new_buffer;
-
-	bytes_read = read(fd, temp, BUFFER_SIZE);
-	while (bytes_read > 0)
-	{
-		temp[bytes_read] = '\0';
-		new_buffer = ft_strjoin(buffer, temp);
-		free(buffer);
-		buffer = new_buffer;
-		bytes_read = read(fd, temp, BUFFER_SIZE);
-	}
-	if (bytes_read == -1)
-	{
-		free(buffer);
-		buffer = NULL;
-	}
-	return (buffer);
-}
-
-static char	*fill_buffer(int fd, char *buffer)
-{
+	int		bytes;
 	char	*temp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (temp == NULL)
-		return (NULL);
-	if (buffer == NULL)
-		buffer = ft_calloc(1, 1);
-	buffer = read_and_join(fd, buffer, temp);
-	free(temp);
-	if (buffer && buffer[0] == '\0')
+	bytes = 1;
+	if (stored == NULL)
 	{
-		free(buffer);
-		buffer = NULL;
+		stored = ft_strdup("");
+		if (stored == NULL)
+			return (NULL);
 	}
-	return (buffer);
+	while (ft_strchr(stored, '\n') == NULL && bytes != 0)
+	{
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == -1)
+			return (clear_backup(stored));
+		buffer[bytes] = '\0';
+		temp = stored;
+		stored = ft_strjoin(temp, buffer);
+		free(temp);
+		if (stored == NULL)
+			return (NULL);
+	}
+	return (stored);
 }
 
-static char	*line_extractor(char **buffer)
+static char	*extract_line(char *stored)
 {
 	int		index;
 	char	*line;
-	char	*leftover;
 
-	if (*buffer == NULL || **buffer == '\0')
-		return (NULL);
 	index = 0;
-	while ((*buffer)[index] != '\0' && (*buffer)[index] != '\n')
-		index++;
-	if ((*buffer)[index] == '\n')
-		line = malloc(sizeof(char) * (index + 2));
-	else
-		line = malloc(sizeof(char) * (index + 1));
-	if (line == NULL)
+	if (stored[index] == '\0')
 		return (NULL);
-	ft_strlcpy(line, *buffer, index + 2);
-	if ((*buffer)[index] == '\n')
-		leftover = ft_strdup(&(*buffer)[index + 1]);
-	else
-		leftover = NULL;
-	free(*buffer);
-	*buffer = leftover;
+	while (stored[index] != '\0' && stored[index] != '\n')
+		index++;
+	line = ft_substr(stored, 0, index + 1);
 	return (line);
+}
+
+static char	*update_backup(char *stored)
+{
+	int		index;
+	char	*new_backup;
+
+	index = 0;
+	while (stored[index] != '\0' && stored[index] != '\n')
+		index++;
+	if (stored[index] == '\0')
+		return (clear_backup(stored));
+	new_backup = ft_substr(stored, index + 1, ft_strlen(stored) - index);
+	free(stored);
+	return (new_backup);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
 	char		*line;
+	static char	*stored;
+	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = fill_buffer(fd, buffer);
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buffer == NULL)
 		return (NULL);
-	line = line_extractor(&buffer);
+	stored = read_and_store(fd, buffer, stored);
+	free(buffer);
+	if (stored == NULL)
+		return (NULL);
+	line = extract_line(stored);
+	stored = update_backup(stored);
 	return (line);
-}
-
-int main() {
-	FILE *file = fopen("42_with_nl", "r");
-
-	if (file == NULL) {
-		perror("Error opening file");
-		return 1;
-	}
-	printf("File opened successfully!\n");
-	int fd = fileno(file);
-	char *line;
-	while ((line = get_next_line(fd)) != NULL) {
-		printf("%s", line);
-		free(line);
-	}
-	fclose(file);
-	return 0;
 }
