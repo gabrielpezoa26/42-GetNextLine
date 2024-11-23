@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/23 15:08:40 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:58:23 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*read_and_store(int fd, char *buffer, char *stored)
 	return (stored);
 }
 
-static char	*extract_line(char *stored)
+static char	*line_extractor(char *stored)
 {
 	int		index;
 	char	*line;
@@ -76,9 +76,9 @@ static char	*update_backup(char *stored)
 
 char	*get_next_line(int fd)
 {
-	char		*line;
 	static char	*stored;
 	char		*buffer;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -89,7 +89,7 @@ char	*get_next_line(int fd)
 	free(buffer);
 	if (stored == NULL)
 		return (NULL);
-	line = extract_line(stored);
+	line = line_extractor(stored);
 	stored = update_backup(stored);
 	return (line);
 }
