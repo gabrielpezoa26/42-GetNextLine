@@ -6,18 +6,18 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:51 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/23 14:58:30 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/24 14:57:42 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *s)
 {
-	int	count;
+	size_t	count;
 
 	count = 0;
-	while (str[count] != '\0')
+	while (s[count] != '\0')
 	{
 		count++;
 	}
@@ -26,58 +26,63 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
+	int	i;
+
+	i = 0;
+	while ((s[i] != '\0') || s[i] == (char)c)
 	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
-	if (c == '\0')
-		return ((char *)s);
 	return (NULL);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	char	*copy;
 	int		i;
+	char	*dest;
 
-	copy = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!copy)
+	dest = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if ((dest == NULL) || (s == NULL))
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (s[i] != '\0')
 	{
-		copy[i] = s1[i];
+		dest[i] = s[i];
 		i++;
 	}
-	copy[i] = '\0';
-	return (copy);
+	dest[i] = '\0';
+	return (dest);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	char	*joined;
-	int		i;
-	int		j;
+	size_t	size;
+	size_t	i;
+	char	*dest_ptr;
 
-	joined = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!joined)
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	size = ft_strlen(s1) + ft_strlen(s2) + 1;
+	dest_ptr = malloc(size);
+	if (dest_ptr == NULL)
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (*s1 != '\0')
 	{
-		joined[i] = s1[i];
+		dest_ptr[i] = *s1;
 		i++;
+		s1++;
 	}
-	j = 0;
-	while (s2[j])
+	while (*s2 != '\0')
 	{
-		joined[i + j] = s2[j];
-		j++;
+		dest_ptr[i] = *s2;
+		i++;
+		s2++;
 	}
-	joined[i + j] = '\0';
-	return (joined);
+	dest_ptr[i] = '\0';
+	return (dest_ptr);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
