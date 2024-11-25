@@ -3,105 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/25 15:40:41 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/25 20:55:22 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*clear_backup(char *old_backup)  //limpa a memória
+static char	*clear_backup(char *old_backup)
 {
 	free(old_backup);
-	return (NULL);  //retorna null p informar que esta vazio
+	return (NULL);
 }
 
-static char	*read_and_store(int fd, char *buffer, char *stored)  //lê o arquivo e aloca memoria necessaria
+static char	*read_and_store(int fd, char *buffer, char *stored)
 {
-	int		bytes;  // armazenaf os bytes lidos
-	char	*temp;  //variavel temporaria
+	int		bytes;
+	char	*temp;
 
 	bytes = 1;
-	if (stored == NULL)  //se receber um ponteiro nulo, já cria uma string vazia
+	if (stored == NULL)
 	{
-		stored = ft_strdup("");  //aloca a string vazia
+		stored = ft_strdup("");
 		if (stored == NULL)
 		{
-			return (NULL);  //retorna nulo se o malloc da strdup der ruim
+			return (NULL);
 		}
 	}
-	while ((ft_strchr(stored, '\n') == NULL) && (bytes != 0))  //fica no loop ate encontrar '\n' ou EOF 
+	while ((ft_strchr(stored, '\n') == NULL) && (bytes != 0))
 	{
-		bytes = read(fd, buffer, BUFFER_SIZE);  //le o arquivo, com o 'size' BUFFER_SIZE
-		if (bytes == -1)  //limpa o buffer se retornar -1 (falha do read)
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == -1)
 			return (clear_backup(stored));
-		buffer[bytes] = '\0'; //coloca o terminador nulo no final
-		temp = stored;  //transfere o conteudo pra 'stored', pq o temp vai ser free
-		stored = ft_strjoin(temp, buffer);  //manda o buffer pra stored
+		buffer[bytes] = '\0';
+		temp = stored;
+		stored = ft_strjoin(temp, buffer);
 		free(temp);
-		if (stored == NULL)  //tratativa de erro
+		if (stored == NULL)
 			return (NULL);
 	}
-	return (stored);  //retorna a string 'stored' atualizada
+	return (stored);
 }
 
 static char	*line_extractor(char *stored)
 {
-	int		index;  // posicao do \n ou EOF
-	char	*line;  //armazena a linha extraida
+	int		index;
+	char	*line;
 
 	index = 0;
-	if (stored[index] == '\0')  //retorna nulo se receber uma string vazia
+	if (stored[index] == '\0')
 		return (NULL);
-	while (stored[index] != '\0' && stored[index] != '\n')  //encontra onde esta o '\n'
+	while (stored[index] != '\0' && stored[index] != '\n')
 	{
 		index++;
 	}
-	line = ft_substr(stored, 0, index + 1);  //extrai a linha incluindo o '\n'
-	return (line);  //retorna a linha extraída
+	line = ft_substr(stored, 0, index + 1);
+	return (line);
 }
 
 static char	*update_backup(char *stored)
 {
-	int		index;  //posicao do '\n' na string
-	char	*new_backup;  // armazena a string atualizada
+	int		index;
+	char	*new_backup;
 
 	index = 0;
-	while (stored[index] != '\0' && stored[index] != '\n')  //encontra o '\n' e inicia o loop
+	while (stored[index] != '\0' && stored[index] != '\n')
 	{
 		index++;
 	}
-	if (stored[index] == '\0')  //se n encontrar o '\n'
+	if (stored[index] == '\0')
 	{
-		return (clear_backup(stored));  //limpa a memoria
+		return (clear_backup(stored));
 	}
-	new_backup = ft_substr(stored, index + 1, ft_strlen(stored) - index);  //cria uma nova string começando depois do '\n'
+	new_backup = ft_substr(stored, index + 1, ft_strlen(stored) - index);
 	free(stored);
 	return (new_backup);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*stored;  //buffer
-	char		*buffer;  //armazena o buffer temporario
-	char		*line;  //armazena a linha
+	static char	*stored;
+	char		*buffer;
+	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)  //tratativa de possíveis erros
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));  //aloca o tamanho pro buffer
-	if (buffer == NULL)                                        //tratativa de erro
-	{
-		return (NULL);  //retorna nulo se malloc der ruim
-	}
-	stored = read_and_store(fd, buffer, stored);  //le o arquivo e guarda os dados em 'stored'
-	free(buffer);                                //libera a memoria logo apos a leitura
-	if (stored == NULL)                         //tratativa em caso de erro ou não ter dados
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buffer == NULL)
 	{
 		return (NULL);
 	}
-	line = line_extractor(stored);             //extrai a prox linha chamando a func
-	stored = update_backup(stored);           //atualiza o buffer pra ter so os dados restantes
-	return (line);                           //retorna a linha
+	stored = read_and_store(fd, buffer, stored);
+	free(buffer);
+	if (stored == NULL)
+	{
+		return (NULL);
+	}
+	line = line_extractor(stored);
+	stored = update_backup(stored);
+	return (line);
 }
