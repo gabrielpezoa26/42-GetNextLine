@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/24 14:50:06 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/25 14:37:54 by gcesar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static char	*clear_backup(char *old_backup)  //limpa a memória
 
 static char	*read_and_store(int fd, char *buffer, char *stored)  //lê o arquivo e aloca memória necessaria
 {
-	int		bytes;  // Holds the number of bytes read from the file.
-	char	*temp;  // Temporary pointer for managing memory during string joining.
+	int		bytes;  // armazenaf os bytes lidos
+	char	*temp;  //variavel temporaria
 
-	bytes = 1;  //começa em 1 pra entrar no while
+	bytes = 1;
 	if (stored == NULL)  //se receber um ponteiro nulo, já cria uma string vazia
 	{
 		stored = ft_strdup("");  //aloca a string vazia
@@ -49,7 +49,7 @@ static char	*read_and_store(int fd, char *buffer, char *stored)  //lê o arquivo
 
 static char	*line_extractor(char *stored)
 {
-	int		index;  // Position of the newline or the end of the string.
+	int		index;  // posicao do \n ou EOF
 	char	*line;  //armazena a linha extraida
 
 	index = 0;
@@ -57,7 +57,7 @@ static char	*line_extractor(char *stored)
 		return (NULL);
 	while (stored[index] != '\0' && stored[index] != '\n')  //encontra onde esta o '\n'
 	{
-		index++;  //só itera
+		index++;
 	}
 	line = ft_substr(stored, 0, index + 1);  //extrai a linha incluindo o '\n'
 	return (line);  //retorna a linha extraída
@@ -104,4 +104,29 @@ char	*get_next_line(int fd)
 	line = line_extractor(stored);             //extrai a prox linha chamando a func
 	stored = update_backup(stored);           //atualiza o buffer pra ter so os dados restantes
 	return (line);                           //retorna a linha
+}
+
+int	main(void)
+{
+	int fd;
+	char *line;
+
+	if (argc != 2)
+	{
+		write(2, "./get_next_line arquivo\n", 35);
+		return (1);
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error opening file");
+		return (1);
+	}
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
 }
