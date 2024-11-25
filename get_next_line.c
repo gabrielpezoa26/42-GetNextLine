@@ -6,7 +6,7 @@
 /*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/25 14:37:54 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:40:41 by gcesar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static char	*clear_backup(char *old_backup)  //limpa a memória
 {
 	free(old_backup);
-	return (NULL);  //retorna null informando que esta vazio
+	return (NULL);  //retorna null p informar que esta vazio
 }
 
-static char	*read_and_store(int fd, char *buffer, char *stored)  //lê o arquivo e aloca memória necessaria
+static char	*read_and_store(int fd, char *buffer, char *stored)  //lê o arquivo e aloca memoria necessaria
 {
 	int		bytes;  // armazenaf os bytes lidos
 	char	*temp;  //variavel temporaria
@@ -104,29 +104,4 @@ char	*get_next_line(int fd)
 	line = line_extractor(stored);             //extrai a prox linha chamando a func
 	stored = update_backup(stored);           //atualiza o buffer pra ter so os dados restantes
 	return (line);                           //retorna a linha
-}
-
-int	main(void)
-{
-	int fd;
-	char *line;
-
-	if (argc != 2)
-	{
-		write(2, "./get_next_line arquivo\n", 35);
-		return (1);
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error opening file");
-		return (1);
-	}
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
-	return (0);
 }
