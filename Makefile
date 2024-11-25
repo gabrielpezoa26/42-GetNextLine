@@ -6,7 +6,7 @@
 #    By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 15:35:56 by gcesar-n          #+#    #+#              #
-#    Updated: 2024/11/22 15:35:38 by gcesar-n         ###   ########.fr        #
+#    Updated: 2024/11/25 17:00:30 by gcesar-n         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CFLAGS:= -Wall -Wextra -Werror -D BUFFER_SIZE=42
 NAME:= get_next_line.a
 HDR:= get_next_line.h
 
-SRC_FILES:= get_next_line.c\
+SRC_FILES:=	get_next_line.c\
 			get_next_line_utils.c\
 
 OBJ_FILES := $(SRC_FILES:.c=.o)
@@ -35,5 +35,3 @@ fclean: clean
 		rm -f $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re
