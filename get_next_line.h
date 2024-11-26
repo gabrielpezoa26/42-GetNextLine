@@ -6,7 +6,7 @@
 /*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:53 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/26 15:16:10 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:56:33 by gcesar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
