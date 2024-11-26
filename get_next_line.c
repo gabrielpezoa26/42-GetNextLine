@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/25 20:55:22 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/26 12:12:05 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static char	*line_extractor(char *stored)
 
 	index = 0;
 	if (stored[index] == '\0')
+	{
 		return (NULL);
+	}
 	while (stored[index] != '\0' && stored[index] != '\n')
 	{
 		index++;
