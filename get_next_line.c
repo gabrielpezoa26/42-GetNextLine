@@ -6,19 +6,19 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:49 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/26 12:12:05 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/11/26 12:53:17 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*clear_backup(char *old_backup)
+static char	*ft_free_memory(char *to_clear)
 {
-	free(old_backup);
+	free(to_clear);
 	return (NULL);
 }
 
-static char	*read_and_store(int fd, char *buffer, char *stored)
+static char	*ft_read_and_store(int fd, char *buffer, char *stored)
 {
 	int		bytes;
 	char	*temp;
@@ -36,7 +36,7 @@ static char	*read_and_store(int fd, char *buffer, char *stored)
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
-			return (clear_backup(stored));
+			return (ft_free_memory(stored));
 		buffer[bytes] = '\0';
 		temp = stored;
 		stored = ft_strjoin(temp, buffer);
@@ -47,7 +47,7 @@ static char	*read_and_store(int fd, char *buffer, char *stored)
 	return (stored);
 }
 
-static char	*line_extractor(char *stored)
+static char	*ft_line_extractor(char *stored)
 {
 	int		index;
 	char	*line;
@@ -65,7 +65,7 @@ static char	*line_extractor(char *stored)
 	return (line);
 }
 
-static char	*update_backup(char *stored)
+static char	*ft_update_backup(char *stored)
 {
 	int		index;
 	char	*new_backup;
@@ -77,7 +77,7 @@ static char	*update_backup(char *stored)
 	}
 	if (stored[index] == '\0')
 	{
-		return (clear_backup(stored));
+		return (ft_free_memory(stored));
 	}
 	new_backup = ft_substr(stored, index + 1, ft_strlen(stored) - index);
 	free(stored);
@@ -97,13 +97,13 @@ char	*get_next_line(int fd)
 	{
 		return (NULL);
 	}
-	stored = read_and_store(fd, buffer, stored);
+	stored = ft_read_and_store(fd, buffer, stored);
 	free(buffer);
 	if (stored == NULL)
 	{
 		return (NULL);
 	}
-	line = line_extractor(stored);
-	stored = update_backup(stored);
+	line = ft_line_extractor(stored);
+	stored = ft_update_backup(stored);
 	return (line);
 }
