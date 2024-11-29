@@ -6,7 +6,7 @@
 /*   By: gcesar-n <gcesar-n@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:35:51 by gcesar-n          #+#    #+#             */
-/*   Updated: 2024/11/27 18:20:10 by gcesar-n         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:40:05 by gcesar-n         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,22 +87,28 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*sub;
 	size_t	i;
+	char	*result;
 
 	if (!s)
+	{
 		return (NULL);
+	}
 	if ((size_t)start >= ft_strlen(s))
+	{
 		return (ft_strdup(""));
-	sub = (char *)malloc(sizeof(char) * (len + 1));
-	if (!sub)
+	}
+	result = (char *)malloc(sizeof(char) * (len + 1));
+	if (result == NULL)
+	{
 		return (NULL);
+	}
 	i = 0;
 	while (s[start + i] && i < len)
 	{
-		sub[i] = s[start + i];
+		result[i] = s[start + i];
 		i++;
 	}
-	sub[i] = '\0';
-	return (sub);
+	result[i] = '\0';
+	return (result);
 }
